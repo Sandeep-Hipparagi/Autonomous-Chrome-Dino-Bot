@@ -1,0 +1,36 @@
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Build and Packaging
+build/
+*.spec
+*.egg-info/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Post-mortem dumps & Local logs
+debug_deaths/
+diagnostics/
+*.log
+session_telemetry.csv
+test_telemetry.csv
+
+# Keep release dist directory template or checksum only
+dist/*
+!dist/SHA256SUMS.txt
+
+# Temporary test images
+test_grab.png
+chrome_test.png
+printwindow_test.png
+
+# OS and Editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

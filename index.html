@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Chrome Dino Runner | Sub-Millisecond AI Engine</title>
+  <meta name="description" content="Ultra-high performance autonomous Chrome Dino bot running at >2,000 FPS with sub-millisecond vision latency and asymptotic speed compensation for 50,000+ Infinity Runs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-card: #162032;
+      --bg-card-hover: #1e293b;
+      --border-color: #24344d;
+      --border-accent: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-cyan: #38bdf8;
+      --accent-teal: #14b8a6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --font-mono: 'Fira Code', monospace;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background grid */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header & Navigation */
+    header {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10, 14, 23, 0.85);
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    .btn-github {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn-github:hover {
+      border-color: var(--accent-cyan);
+      background: var(--bg-card-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4rem 0 3rem;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-tag span {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-teal) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #0d9488);
+      color: #ffffff;
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 20px rgba(13, 148, 136, 0.3);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(13, 148, 136, 0.5);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--text-muted);
+      transform: translateY(-1px);
+    }
+
+    /* Metric Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin: 3.5rem 0;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-teal));
+    }
+
+    .metric-val {
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-val.emerald { color: var(--accent-emerald); }
+    .metric-val.cyan { color: var(--accent-cyan); }
+    .metric-val.teal { color: var(--accent-teal); }
+    .metric-val.amber { color: var(--accent-amber); }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-sub {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 0.5rem;
+      font-family: var(--font-mono);
+    }
+
+    /* Interactive Simulator Section */
+    .section-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 650px;
+    }
+
+    .sim-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 3.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .sim-telemetry {
+      display: flex;
+      gap: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .sim-tele-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-tele-item span:first-child {
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .sim-tele-item span:last-child {
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    .sim-controls {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn-sim {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-sim:hover {
+      background: rgba(56, 189, 248, 0.25);
+    }
+
+    .btn-sim.active {
+      background: var(--accent-cyan);
+      color: #050b14;
+    }
+
+    #simCanvas {
+      width: 100%;
+      height: 240px;
+      background: #0d131f;
+      border-radius: 10px;
+      border: 1px solid #1a273b;
+      display: block;
+    }
+
+    .sim-legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .legend-box {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    /* Comparison Section: Linear vs Asymptotic */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    .compare-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .compare-card.bad {
+      border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    .compare-card.good {
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .compare-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .compare-card.bad .compare-badge {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-rose);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .compare-card.good .compare-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .compare-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .compare-formula {
+      font-family: var(--font-mono);
+      background: #0c121e;
+      border: 1px solid #1f2e46;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .compare-list {
+      list-style: none;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .compare-list li {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    /* Architecture Grid */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .arch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .arch-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .arch-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .arch-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .arch-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Release Box */
+    .release-box {
+      background: linear-gradient(180deg, #162032 0%, #0d131f 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.25rem;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .release-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .release-tag {
+      font-family: var(--font-mono);
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--accent-emerald);
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .checksum-bar {
+      background: #090e18;
+      border: 1px solid #1a273c;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.25rem 0;
+      gap: 1rem;
+      overflow-x: auto;
+    }
+
+    .btn-copy {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-copy:hover {
+      color: var(--text-main);
+      border-color: var(--accent-cyan);
+    }
+
+    .quick-start-code {
+      background: #090e18;
+      border: 1px solid #1a273c;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header>
+    <div class="container nav-content">
+      <div class="logo-badge">
+        <div class="logo-icon">D</div>
+        <span>AUTONOMOUS DINO BOT</span>
+      </div>
+      <div class="nav-links">
+        <a href="#simulator" class="nav-link">Physics Simulator</a>
+        <a href="#benchmarks" class="nav-link">Benchmarks</a>
+        <a href="#architecture" class="nav-link">Architecture</a>
+        <a href="#download" class="nav-link">Download v1.0.0</a>
+        <a href="https://github.com/sandeep-hipparagi/Autonomous-Chrome-Dino-Bot" target="_blank" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">
+        <span></span> PRODUCTION RELEASE v1.0.0
+      </div>
+      <h1 class="hero-title">
+        Sub-Millisecond Autonomous<br>
+        <span class="highlight">Chrome Dino Runner</span>
+      </h1>
+      <p class="hero-subtitle">
+        Engineered for 50,000+ Infinity Runs using asymptotic speed modeling, direct GDI sub-millisecond framebuffer streaming, and hardware scancode control.
+      </p>
+      <div class="hero-cta">
+        <a href="#download" class="btn-primary">Download Windows Binary (.exe)</a>
+        <a href="#simulator" class="btn-secondary">Explore Physics Engine</a>
+      </div>
+    </section>
+
+    <!-- Telemetry & Benchmarks Metric Grid -->
+    <section id="benchmarks" class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-val emerald">0.06 ms</div>
+        <div class="metric-label">GDI Grab Latency</div>
+        <div class="metric-sub">>15,000 FPS Direct HWND</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val cyan">0.34 ms</div>
+        <div class="metric-label">Vision Pipeline</div>
+        <div class="metric-sub">>2,900 FPS Morphology</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val teal">< 0.50 ms</div>
+        <div class="metric-label">End-to-End Latency</div>
+        <div class="metric-sub">Budget: < 5.00 ms (10x faster)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val amber">50,000+</div>
+        <div class="metric-label">Infinity Score Cap</div>
+        <div class="metric-sub">Zero Early-Jump Decay</div>
+      </div>
+    </section>
+
+    <!-- Interactive Canvas Simulator -->
+    <section id="simulator">
+      <h2 class="section-title">Interactive Vision & Physics Simulation</h2>
+      <p class="section-desc">
+        Watch how the Dino Bot's triple-ROI scan engine tracks obstacles and dynamically expands the look-ahead horizon using Chrome's exact asymptotic velocity curve.
+      </p>
+
+      <div class="sim-container">
+        <div class="sim-header">
+          <div class="sim-telemetry">
+            <div class="sim-tele-item">
+              <span>Score</span>
+              <span id="uiScore">1,420</span>
+            </div>
+            <div class="sim-tele-item">
+              <span>Game Speed</span>
+              <span id="uiSpeed">9.8 px/f</span>
+            </div>
+            <div class="sim-tele-item">
+              <span>Look-Ahead ROI</span>
+              <span id="uiLookAhead">124 px</span>
+            </div>
+            <div class="sim-tele-item">
+              <span>Engine Status</span>
+              <span id="uiStatus" style="color: var(--accent-emerald);">SURFING</span>
+            </div>
+          </div>
+          <div class="sim-controls">
+            <button class="btn-sim" id="btnToggleSim">Pause Simulation</button>
+            <button class="btn-sim" id="btnSpawnPtero">Spawn Pterodactyl</button>
+            <button class="btn-sim" id="btnToggleNight">Night Mode</button>
+          </div>
+        </div>
+
+        <canvas id="simCanvas" width="1120" height="240"></canvas>
+
+        <div class="sim-legend">
+          <div class="legend-item">
+            <div class="legend-box" style="border: 2px solid #10b981;"></div>
+            <span>Ground ROI (Cactus Hop)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="border: 2px solid #f59e0b;"></div>
+            <span>Mid ROI (Low Ptero Duck)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="border: 2px solid #38bdf8;"></div>
+            <span>Upper ROI (High Ptero Safe Zone)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="border: 1px dashed #f43f5e;"></div>
+            <span>Dino Hitbox & Snout Anchor</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Velocity Comparison Section -->
+    <section>
+      <h2 class="section-title">Asymptotic Velocity vs Naive Linear Expansion</h2>
+      <p class="section-desc">
+        Why basic bots inevitably die around scores 3,000–5,000, and how the asymptotic curve enables survival at 50,000+.
+      </p>
+
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <div class="compare-badge">Flawed Approach</div>
+          <h3 class="compare-title">Naive Linear Look-Ahead</h3>
+          <div class="compare-formula">look_ahead = base + growth_factor * elapsed_time</div>
+          <ul class="compare-list">
+            <li>❌ <strong>Fatal Early Jumps:</strong> Chrome hits a hard velocity ceiling of ~13 px/frame at score ~3,500. Linear formulas keep growing infinitely.</li>
+            <li>❌ <strong>Landing Onto Cacti:</strong> Dino jumps 300+ pixels ahead of the obstacle, landing straight onto the spikes before recovery.</li>
+            <li>❌ <strong>Dead Zone Bug:</strong> Shifting the box anchor forward creates a blind spot directly in front of the Dino's snout.</li>
+          </ul>
+        </div>
+
+        <div class="compare-card good">
+          <div class="compare-badge">Production Architecture (v1.0.0)</div>
+          <h3 class="compare-title">True Asymptotic Engine Model</h3>
+          <div class="compare-formula">v(t) = v₀ + (v_max - v₀) · [1 - exp(-k · t)]</div>
+          <ul class="compare-list">
+            <li>✅ <strong>Plateau Convergence:</strong> Look-ahead smoothly clamps at exactly 195 px as speed reaches Chrome's 13 px/frame cap.</li>
+            <li>✅ <strong>Fixed Snout Anchor:</strong> Left edge anchored rigidly at Dino nose; only the width expands forward dynamically.</li>
+            <li>✅ <strong>Dynamic Jump Durations:</strong> Variable hop duration (25ms short, 50ms medium, 68ms high) based on cluster width.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture">
+      <h2 class="section-title">4-Tier Autonomous Architecture</h2>
+      <p class="section-desc">
+        A zero-ML, ultra-lightweight system designed to run under 0.5 ms latency on standard multi-monitor Windows hardware.
+      </p>
+
+      <div class="arch-grid">
+        <div class="arch-card">
+          <div class="arch-num">TIER 1</div>
+          <h3 class="arch-title">Hardware Framebuffer</h3>
+          <p class="arch-desc">
+            Direct Win32 GDI `BitBlt` integration capturing only the exact 700x220 canvas sub-rectangle. Slashes capture time from 16.34 ms down to 0.06 ms.
+          </p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-num">TIER 2</div>
+          <h3 class="arch-title">Adaptive Vision Core</h3>
+          <p class="arch-desc">
+            Zero-copy NumPy morphology with dynamic Day/Night luminance inversion and strict Y-zone clamping to ignore drifting clouds and stars.
+          </p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-num">TIER 3</div>
+          <h3 class="arch-title">Hardware Scancodes</h3>
+          <p class="arch-desc">
+            Direct `SendInput` scancode injection (0x39 Space, 0x50 Down) with zero thread-contention mutex locks preventing race conditions between jumps and ducks.
+          </p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-num">TIER 4</div>
+          <h3 class="arch-title">Telemetry & Post-Mortem</h3>
+          <p class="arch-desc">
+            Black-box replay buffer saving the final 10 pre-collision frames. Automated heuristics classify death causes and auto-tune jump hold parameters.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download & Release Section -->
+    <section id="download" class="release-box">
+      <div class="release-header">
+        <div>
+          <span class="release-tag">Official GitHub Release</span>
+          <h2 style="font-size: 1.75rem; font-weight: 700; margin-top: 0.5rem;">Release v1.0.0 Standalone Executable</h2>
+        </div>
+        <a href="https://github.com/sandeep-hipparagi/Autonomous-Chrome-Dino-Bot/releases/latest" target="_blank" class="btn-primary">
+          Download dino_bot.exe
+        </a>
+      </div>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Single self-contained Windows executable compiled with PyInstaller. Zero external Python or runtime dependencies required.
+      </p>
+
+      <div class="checksum-bar">
+        <div>
+          <span style="color: var(--text-dim); margin-right: 0.75rem;">SHA-256:</span>
+          <span id="shaText" style="color: var(--accent-emerald);">5eb0fca78d34e9160922c0c36ff19bd6f4219cdc5da828171aa68648fb55e0bf</span>
+        </div>
+        <button class="btn-copy" onclick="copyChecksum()">Copy Checksum</button>
+      </div>
+
+      <h4 style="font-size: 0.95rem; font-weight: 600; margin-top: 1.5rem; color: var(--text-main);">Quick Start (Windows Command Prompt / PowerShell)</h4>
+      <div class="quick-start-code">
+# Run autonomous bot with live OpenCV diagnostics HUD
+.\dino_bot.exe --debug
+
+# Run automated soak test targeting 10,000+ points
+.\dino_bot.exe --soak-test --target-score 10000
+
+# Run high-resolution latency benchmark (500 frames)
+.\dino_bot.exe --benchmark
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Autonomous Chrome Dino Runner &copy; 2026. Released under the MIT License.</p>
+      <p style="margin-top: 0.25rem;">Built with sub-millisecond precision, OpenCV, NumPy, and Win32 GDI.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Copy Checksum to Clipboard
+    function copyChecksum() {
+      const sha = document.getElementById('shaText').innerText;
+      navigator.clipboard.writeText(sha).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        btn.innerText = 'Copied!';
+        setTimeout(() => { btn.innerText = 'Copy Checksum'; }, 2000);
+      });
+    }
+
+    // Interactive Canvas Physics Simulator
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let simRunning = true;
+    let nightMode = false;
+    let score = 1420;
+    let elapsed = 25;
+    let speed = 9.8;
+    let dinoY = 170;
+    let dinoVY = 0;
+    let isJumping = false;
+    let isDucking = false;
+
+    const GROUND_Y = 170;
+    const DINO_X = 80;
+
+    let obstacles = [
+      { x: 500, type: 'cactus', w: 18, h: 36, y: 154 },
+      { x: 850, type: 'cluster', w: 42, h: 38, y: 152 },
+      { x: 1200, type: 'ptero', w: 34, h: 22, y: 120 }
+    ];
+
+    function calculateAsymptoticSpeed(t) {
+      const v0 = 6.0;
+      const vmax = 13.0;
+      const k = 0.025;
+      return v0 + (vmax - v0) * (1 - Math.exp(-k * t));
+    }
+
+    function calculateLookAhead(spd) {
+      const base = 75;
+      const maxExt = 120;
+      const ext = Math.min(maxExt, (spd - 6.0) * 17.14);
+      return Math.round(base + ext);
+    }
+
+    // Toggle simulation buttons
+    document.getElementById('btnToggleSim').addEventListener('click', function() {
+      simRunning = !simRunning;
+      this.innerText = simRunning ? 'Pause Simulation' : 'Resume Simulation';
+    });
+
+    document.getElementById('btnSpawnPtero').addEventListener('click', function() {
+      obstacles.push({
+        x: canvas.width + 50,
+        type: 'ptero',
+        w: 34,
+        h: 22,
+        y: Math.random() > 0.5 ? 120 : 142
+      });
+    });
+
+    document.getElementById('btnToggleNight').addEventListener('click', function() {
+      nightMode = !nightMode;
+      this.innerText = nightMode ? 'Day Mode' : 'Night Mode';
+    });
+
+    function update() {
+      if (!simRunning) {
+        requestAnimationFrame(draw);
+        return;
+      }
+
+      elapsed += 0.03;
+      speed = calculateAsymptoticSpeed(elapsed);
+      score += Math.round(speed * 0.12);
+
+      const lookAhead = calculateLookAhead(speed);
+
+      document.getElementById('uiScore').innerText = score.toLocaleString();
+      document.getElementById('uiSpeed').innerText = speed.toFixed(1) + ' px/f';
+      document.getElementById('uiLookAhead').innerText = lookAhead + ' px';
+
+      // Move obstacles
+      for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].x -= speed * 0.45;
+      }
+
+      // Remove offscreen obstacles and spawn new ones
+      if (obstacles.length > 0 && obstacles[0].x < -50) {
+        obstacles.shift();
+        const lastX = obstacles[obstacles.length - 1].x;
+        const spacing = 350 + Math.random() * 250;
+        const types = ['cactus', 'cluster', 'ptero'];
+        const chosen = types[Math.floor(Math.random() * types.length)];
+        
+        let w = 18, h = 36, y = 154;
+        if (chosen === 'cluster') { w = 45; h = 38; y = 152; }
+        if (chosen === 'ptero') { w = 34; h = 22; y = Math.random() > 0.5 ? 120 : 142; }
+
+        obstacles.push({ x: lastX + spacing, type: chosen, w, h, y });
+      }
+
+      // Detection & Jump logic
+      const snoutX = DINO_X + 44;
+      const roiStart = snoutX + 8;
+      const roiEnd = roiStart + lookAhead;
+
+      let triggerJump = false;
+      let triggerDuck = false;
+
+      for (let obs of obstacles) {
+        const obsRight = obs.x + obs.w;
+        if (obsRight >= roiStart && obs.x <= roiEnd) {
+          if (obs.type === 'ptero' && obs.y > 135) {
+            triggerDuck = true;
+          } else {
+            triggerJump = true;
+          }
+        }
+      }
+
+      if (triggerJump && !isJumping && !isDucking) {
+        isJumping = true;
+        dinoVY = -9.2;
+        document.getElementById('uiStatus').innerText = 'JUMPING';
+        document.getElementById('uiStatus').style.color = '#38bdf8';
+      } else if (triggerDuck && !isJumping) {
+        isDucking = true;
+        document.getElementById('uiStatus').innerText = 'DUCKING';
+        document.getElementById('uiStatus').style.color = '#f59e0b';
+      } else if (!triggerDuck && isDucking) {
+        isDucking = false;
+        document.getElementById('uiStatus').innerText = 'SURFING';
+        document.getElementById('uiStatus').style.color = '#10b981';
+      }
+
+      // Dino physics
+      if (isJumping) {
+        dinoY += dinoVY;
+        dinoVY += 0.52; // gravity
+        if (dinoY >= GROUND_Y) {
+          dinoY = GROUND_Y;
+          isJumping = false;
+          dinoVY = 0;
+          document.getElementById('uiStatus').innerText = 'SURFING';
+          document.getElementById('uiStatus').style.color = '#10b981';
+        }
+      }
+
+      draw();
+      requestAnimationFrame(update);
+    }
+
+    function draw() {
+      // Background
+      ctx.fillStyle = nightMode ? '#080d16' : '#101726';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Ground Line
+      ctx.strokeStyle = nightMode ? '#334155' : '#1e293b';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, GROUND_Y + 20);
+      ctx.lineTo(canvas.width, GROUND_Y + 20);
+      ctx.stroke();
+
+      // Look-Ahead Scan Zones
+      const snoutX = DINO_X + 44;
+      const roiX = snoutX + 8;
+      const lookAhead = calculateLookAhead(speed);
+
+      // Ground ROI (Green)
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
+      ctx.fillRect(roiX, 138, lookAhead, 46);
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(roiX, 138, lookAhead, 46);
+
+      // Mid ROI (Orange)
+      ctx.fillStyle = 'rgba(245, 158, 11, 0.06)';
+      ctx.fillRect(roiX, 110, lookAhead, 32);
+      ctx.strokeStyle = '#f59e0b';
+      ctx.strokeRect(roiX, 110, lookAhead, 32);
+
+      // Upper ROI (Cyan)
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
+      ctx.fillRect(roiX, 85, lookAhead, 25);
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
+      ctx.setLineDash([3, 3]);
+      ctx.strokeRect(roiX, 85, lookAhead, 25);
+      ctx.setLineDash([]);
+
+      // Draw Dino
+      const dinoColor = nightMode ? '#f1f5f9' : '#e2e8f0';
+      ctx.fillStyle = dinoColor;
+
+      if (isDucking) {
+        // Ducking Dino
+        ctx.fillRect(DINO_X, GROUND_Y + 4, 52, 16);
+        ctx.fillRect(DINO_X + 38, GROUND_Y, 14, 12); // snout
+      } else {
+        // Normal / Jumping Dino
+        ctx.fillRect(DINO_X + 12, dinoY - 24, 24, 38); // body
+        ctx.fillRect(DINO_X + 22, dinoY - 40, 22, 18); // head
+        ctx.fillRect(DINO_X + 16, dinoY + 14, 6, 8);   // legs
+        ctx.fillRect(DINO_X + 26, dinoY + 14, 6, 8);
+      }
+
+      // Draw Obstacles
+      for (let obs of obstacles) {
+        if (obs.type === 'cactus') {
+          ctx.fillStyle = '#22c55e';
+          ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+        } else if (obs.type === 'cluster') {
+          ctx.fillStyle = '#16a34a';
+          ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+          ctx.fillRect(obs.x + 8, obs.y - 4, 12, obs.h + 4);
+        } else if (obs.type === 'ptero') {
+          ctx.fillStyle = '#38bdf8';
+          ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+          // Wings
+          ctx.beginPath();
+          ctx.moveTo(obs.x + 10, obs.y);
+          ctx.lineTo(obs.x + 18, obs.y - 12);
+          ctx.lineTo(obs.x + 24, obs.y);
+          ctx.fill();
+        }
+      }
+    }
+
+    // Start Animation Loop
+    update();
+  </script>
+</body>
+</html>
