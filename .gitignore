@@ -6,6 +6,7 @@ venv/
 # Build and Packaging
 build/
 *.spec
+!dino_bot.spec
 *.egg-info/
 
 # Python Cache
